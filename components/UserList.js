@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import User from './User';
 import AddUser from './AddUser';
+import EditUser from './EditUser';
 
 const UserList = ({ user }) => {
     const USER_API_BASE_URL = "http://192.168.0.180:8080/api/v1/users";
@@ -45,7 +46,6 @@ const UserList = ({ user }) => {
     const editUser = (e, id) => {
         e.preventDefault();
         setUserId(id);
-
     }
 
     return (
@@ -95,7 +95,7 @@ const UserList = ({ user }) => {
                     </table>
                 </div>
             </div>
-
+            <EditUser userId={userId} />
         </>
     );
 };
