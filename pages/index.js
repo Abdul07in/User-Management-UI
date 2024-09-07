@@ -14,7 +14,7 @@ export default function Home() {
         <meta name="keywords" content="user management, app, users" />
         <meta charSet="UTF-8" />
       </Head>
-      <main className=" bg-slate-300 pb-5 mb-5">
+      <main className=" bg-slate-300 pb-5 h-screen">
         <Navbar />
         <AddUser />
       </main>

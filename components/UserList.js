@@ -3,29 +3,55 @@ import User from './User';
 import AddUser from './AddUser';
 
 const UserList = ({ user }) => {
-    const USER_API_ROUTE = "/api/user";
+    const USER_API_BASE_URL = "http://192.168.0.180:8080/api/v1/users";
 
     const [users, setUsers] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [userId, setUserId] = useState(null)
+
     useEffect(() => {
         const fetchData = async () => {
             setLoading(true);
             try {
-                const response = await fetch(USER_API_ROUTE);
+                const response = await fetch(USER_API_BASE_URL, {
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json"
+                    }
+                });
                 const data = await response.json();
                 setUsers(data);
             } catch (error) {
-                console.error("Error fetching users:", error);
+                console.error('Error fetching users:', error);
             }
             setLoading(false);
         };
         fetchData();
     }, [user]);
 
+    const deleteUser = (e, id) => {
+        e.preventDefault();
+        fetch(USER_API_BASE_URL + "/" + id, {
+            method: "DELETE"
+        }).then((res) => {
+            if (users) {
+                setUsers((prevElement) => {
+                    return prevElement.filter((user) => user.id !== id);
+                })
+            }
+        });
+    }
+
+    const editUser = (e, id) => {
+        e.preventDefault();
+        setUserId(id);
+
+    }
+
     return (
         <>
-            <div className="container mx-auto my-2 h-screen overflow-hidden">
-                <div className="flex shadow-lg border rounded-lg overflow-auto  ">
+            <div className="container mx-auto my-2">
+                <div className="flex shadow-lg border rounded-lg overflow-auto">
                     <table className="w-full text-sm text-left rtl:text-right text-gray-200">
                         <thead className="bg-gray-800 uppercase sticky top-0 z-1">
                             <tr>
@@ -39,7 +65,7 @@ const UserList = ({ user }) => {
                             <tbody>
                                 {Array.isArray(users) && users.length > 0 ? (
                                     users.map((user) => (
-                                        <User user={user} key={user.id} />
+                                        <User user={user} key={user.id} deletUser={deleteUser} editUser={editUser} />
                                     ))
                                 ) : (
                                     <tr>
