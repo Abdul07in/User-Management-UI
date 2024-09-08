@@ -2,7 +2,7 @@ import { Dialog, Transition } from '@headlessui/react'
 import React, { Fragment, useState, useCallback } from 'react'
 import UserList from './UserList';
 
-const AddUser = ({ onUserSaved }) => {
+const AddUser = () => {
 	const USER_API_BASE_URL = "http://192.168.0.180:8080/api/v1/users";
 	const [open, setOpen] = useState(false);
 	const [user, setUser] = useState({
@@ -19,8 +19,9 @@ const AddUser = ({ onUserSaved }) => {
 		"email": ""
 	});
 
-	const openModal = useCallback(() => setOpen(true), []);
-	const closeModal = useCallback(() => setOpen(false), []);
+	const openModal = () => setOpen(true);
+	const closeModal = () => setOpen(false);
+
 	const handleChange = useCallback((event) => {
 		const { name, value } = event.target;
 		setUser(prevUser => ({ ...prevUser, [name]: value }));
@@ -47,7 +48,7 @@ const AddUser = ({ onUserSaved }) => {
 		}
 	}, [user]);
 
-	const reset = useCallback((e) => {
+	const reset = (e) => {
 		e.preventDefault();
 		setUser({
 			"id": "",
@@ -56,7 +57,7 @@ const AddUser = ({ onUserSaved }) => {
 			"email": ""
 		});
 		closeModal();
-	}, [closeModal]);
+	}
 
 	return (
 		<>
@@ -82,17 +83,17 @@ const AddUser = ({ onUserSaved }) => {
 									<div className='grid grid-cols-2 gap-4 py-1'>
 										<div className="h-10 my-4 mx-2">
 											<label htmlFor="firstName" className='block text-gray-600 text-sm font-semibold'>First Name</label>
-											<input onChange={handleChange} autoComplete='off' value={user.firstName} type='text' id='firstName' name='firstName' className='h-10 w-full border mt-2 px-2 py-2' />
+											<input onChange={handleChange} autoComplete='off' value={user.firstName} type='text' id='firstName' name='firstName' className='h-10 w-full border border-gray-800  mt-2 px-2 py-2' />
 										</div>
 										<div className="h-10 my-4 mx-2">
 											<label htmlFor="lastName" className='block text-gray-600 text-sm font-semibold'>Last Name</label>
-											<input onChange={handleChange} autoComplete='off' value={user.lastName} type='text' id='lastName' name='lastName' className='h-10 w-full border mt-2 px-2 py-2' />
+											<input onChange={handleChange} autoComplete='off' value={user.lastName} type='text' id='lastName' name='lastName' className='h-10 w-full border border-gray-800  mt-2 px-2 py-2' />
 										</div>
 									</div>
 									<div className='py-1'>
 										<div className="h-10 my-4 mx-2">
 											<label htmlFor="email" className='block text-gray-600 text-sm font-semibold'>Email Id</label>
-											<input onChange={handleChange} autoComplete='off' value={user.email} type='email' id='email' name='email' className='h-10 w-full border mt-2 px-2 py-2' />
+											<input onChange={handleChange} autoComplete='off' value={user.email} type='email' id='email' name='email' className='h-10 w-full border border-gray-800  mt-2 px-2 py-2' />
 										</div>
 									</div>
 									<div className='flex justify-end gap-4 mt-6 mr-4'>

@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import User from './User';
-import AddUser from './AddUser';
 import EditUser from './EditUser';
 
 const UserList = ({ user }) => {
@@ -9,6 +8,7 @@ const UserList = ({ user }) => {
     const [users, setUsers] = useState([]);
     const [loading, setLoading] = useState(true);
     const [userId, setUserId] = useState(null)
+    const [responseUser, setResponseUser] = useState(null)
 
     useEffect(() => {
         const fetchData = async () => {
@@ -28,7 +28,7 @@ const UserList = ({ user }) => {
             setLoading(false);
         };
         fetchData();
-    }, [user]);
+    }, [user, responseUser]);
 
     const deleteUser = (e, id) => {
         e.preventDefault();
@@ -46,19 +46,19 @@ const UserList = ({ user }) => {
     const editUser = (e, id) => {
         e.preventDefault();
         setUserId(id);
-    }
+    };
 
     return (
         <>
             <div className="container mx-auto my-2">
                 <div className="flex shadow-lg border rounded-lg overflow-auto">
-                    <table className="w-full text-sm text-left rtl:text-right text-gray-200">
+                    <table className="w-full text-sm text-left rtl:text-right text-gray-200 table-auto">
                         <thead className="bg-gray-800 uppercase sticky top-0 z-1">
                             <tr>
-                                <th scope="col" className="px-4 py-2 max-w-25">First Name</th>
-                                <th scope="col" className="px-4 py-2 max-w-50">Last Name</th>
-                                <th scope="col" className="px-4 py-2 max-w-25">Email</th>
-                                <th scope="col" className="text-center px-4 py-2 max-w-5">Action</th>
+                                <th scope="col" className="px-4 py-2">First Name</th>
+                                <th scope="col" className="px-4 py-2">Last Name</th>
+                                <th scope="col" className="px-4 py-2">Email</th>
+                                <th scope="col" className="text-center px-4 py-2">Action</th>
                             </tr>
                         </thead>
                         {!loading && (
@@ -95,7 +95,7 @@ const UserList = ({ user }) => {
                     </table>
                 </div>
             </div>
-            <EditUser userId={userId} />
+            <EditUser userId={userId} setResponseUser={setResponseUser} setUserId={setUserId} />
         </>
     );
 };
